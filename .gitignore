@@ -1,0 +1,12 @@
+# Eclipse
+bin/
+.settings/
+
+# Eclipse Core
+.project
+
+# Eclipse Java Development Tools
+.classpath
+
+# Java Package Files
+*.jar
