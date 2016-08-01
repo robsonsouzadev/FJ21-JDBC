@@ -11,6 +11,6 @@ public class TestaRemove {
 		Contato contato = dao.pesquisar(1);
 		dao.remove(contato);
 
-		System.out.println("Removido!");
+		System.out.println("Contato removido!");
 	}
 }

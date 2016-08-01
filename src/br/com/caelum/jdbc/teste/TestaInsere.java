@@ -9,6 +9,7 @@ public class TestaInsere {
 
 	public static void main(String[] args) {
 		Contato contato = new Contato();
+
 		contato.setNome("Caelum");
 		contato.setEmail("contato@caelum.com.br");
 		contato.setEndereco("R. Vergueiro, N. 3185");
@@ -17,6 +18,6 @@ public class TestaInsere {
 		ContatoDao dao = new ContatoDao();
 		dao.adiciona(contato);
 
-		System.out.println("Gravado!");
+		System.out.println("Contato " + contato.getNome() + " adicionado!");
 	}
 }

@@ -13,6 +13,8 @@ public class TestaPesquisa {
 		Contato contato = dao.pesquisar(1);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+		System.out.println("ID: " + contato.getId());
 		System.out.println("Nome: " + contato.getNome());
 		System.out.println("Email: " + contato.getEmail());
 		System.out.println("Endereço: " + contato.getEndereco());

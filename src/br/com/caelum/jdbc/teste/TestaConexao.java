@@ -13,5 +13,7 @@ public class TestaConexao {
 		System.out.println("Conexão aberta!");
 
 		connection.close();
+
+		System.out.println("Conexão fechada!");
 	}
 }

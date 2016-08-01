@@ -25,44 +25,47 @@ public class ContatoDao {
 		String sql = "insert into contatos (nome, email, endereco, dataNascimento) values (?, ?, ?, ?)";
 
 		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-			stmt.setString(1, contato.getNome());
-			stmt.setString(2, contato.getEmail());
-			stmt.setString(3, contato.getEndereco());
-			stmt.setDate(4, new Date(contato.getDataNascimento().getTimeInMillis()));
+			statement.setString(1, contato.getNome());
+			statement.setString(2, contato.getEmail());
+			statement.setString(3, contato.getEndereco());
+			statement.setDate(4, new Date(contato.getDataNascimento().getTimeInMillis()));
 
-			stmt.execute();
-			stmt.close();
+			statement.executeUpdate();
+			statement.close();
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
 	}
 
 	public List<Contato> getLista() {
+		String sql = "select * from contatos";
+
 		try {
 			List<Contato> contatos = new ArrayList<Contato>();
 
-			PreparedStatement stmt = this.connection.prepareStatement("select * from contatos");
-			ResultSet rs = stmt.executeQuery();
+			PreparedStatement statement = this.connection.prepareStatement(sql);
 
-			while (rs.next()) {
+			ResultSet result = statement.executeQuery();
+
+			while (result.next()) {
 				Contato contato = new Contato();
 
-				contato.setId(rs.getLong("id"));
-				contato.setNome(rs.getString("nome"));
-				contato.setEmail(rs.getString("email"));
-				contato.setEndereco(rs.getString("endereco"));
+				contato.setId(result.getLong("id"));
+				contato.setNome(result.getString("nome"));
+				contato.setEmail(result.getString("email"));
+				contato.setEndereco(result.getString("endereco"));
 
 				Calendar data = Calendar.getInstance();
-				data.setTime(rs.getDate("dataNascimento"));
+				data.setTime(result.getDate("dataNascimento"));
 				contato.setDataNascimento(data);
 
 				contatos.add(contato);
 			}
 
-			rs.close();
-			stmt.close();
+			result.close();
+			statement.close();
 
 			return contatos;
 		} catch (SQLException e) {
@@ -74,25 +77,27 @@ public class ContatoDao {
 		String sql = "select * from contatos where id = ?";
 
 		try {
-			PreparedStatement stmt = this.connection.prepareStatement(sql);
-			stmt.setLong(1, id);
+			PreparedStatement statement = this.connection.prepareStatement(sql);
 
-			ResultSet rs = stmt.executeQuery();
+			statement.setLong(1, id);
 
-			rs.next();
+			ResultSet result = statement.executeQuery();
+
+			result.next();
 
 			Contato contato = new Contato();
-			contato.setId(rs.getLong("id"));
-			contato.setNome(rs.getString("nome"));
-			contato.setEmail(rs.getString("email"));
-			contato.setEndereco(rs.getString("endereco"));
+
+			contato.setId(result.getLong("id"));
+			contato.setNome(result.getString("nome"));
+			contato.setEmail(result.getString("email"));
+			contato.setEndereco(result.getString("endereco"));
 
 			Calendar data = Calendar.getInstance();
-			data.setTime(rs.getDate("dataNascimento"));
+			data.setTime(result.getDate("dataNascimento"));
 			contato.setDataNascimento(data);
 
-			rs.close();
-			stmt.close();
+			result.close();
+			statement.close();
 
 			return contato;
 		} catch (SQLException e) {
@@ -104,27 +109,31 @@ public class ContatoDao {
 		String sql = "update contatos set nome = ?, email = ?, endereco = ?, dataNascimento = ? where id = ?";
 
 		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setString(1, contato.getNome());
-			stmt.setString(2, contato.getEmail());
-			stmt.setString(3, contato.getEndereco());
-			stmt.setDate(4, new Date(contato.getDataNascimento().getTimeInMillis()));
-			stmt.setLong(5, contato.getId());
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-			stmt.execute();
-			stmt.close();
+			statement.setString(1, contato.getNome());
+			statement.setString(2, contato.getEmail());
+			statement.setString(3, contato.getEndereco());
+			statement.setDate(4, new Date(contato.getDataNascimento().getTimeInMillis()));
+			statement.setLong(5, contato.getId());
+
+			statement.executeUpdate();
+			statement.close();
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
 	}
 
 	public void remove(Contato contato) {
-		try {
-			PreparedStatement stmt = connection.prepareStatement("delete from contatos where id = ?");
-			stmt.setLong(1, contato.getId());
+		String sql = "delete from contatos where id = ?";
 
-			stmt.execute();
-			stmt.close();
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+
+			statement.setLong(1, contato.getId());
+
+			statement.executeUpdate();
+			statement.close();
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}

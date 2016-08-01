@@ -16,6 +16,7 @@ public class TestaLista {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		for (Contato contato : contatos) {
+			System.out.println("ID: " + contato.getId());
 			System.out.println("Nome: " + contato.getNome());
 			System.out.println("Email: " + contato.getEmail());
 			System.out.println("Endereço: " + contato.getEndereco());

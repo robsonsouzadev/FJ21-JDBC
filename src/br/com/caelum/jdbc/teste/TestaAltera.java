@@ -1,7 +1,5 @@
 package br.com.caelum.jdbc.teste;
 
-import java.text.SimpleDateFormat;
-
 import br.com.caelum.jdbc.dao.ContatoDao;
 import br.com.caelum.jdbc.modelo.Contato;
 
@@ -15,14 +13,6 @@ public class TestaAltera {
 
 		dao.altera(contato);
 
-		System.out.println("Alterado!\n");
-
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-		System.out.println(contato.getId());
-		System.out.println(contato.getNome());
-		System.out.println(contato.getEmail());
-		System.out.println(contato.getEndereco());
-		System.out.println(sdf.format(contato.getDataNascimento().getTime()));
+		System.out.println("Contato " + contato.getNome() + " alterado!");
 	}
 }
