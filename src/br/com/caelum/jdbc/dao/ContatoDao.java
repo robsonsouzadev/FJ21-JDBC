@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.caelum.jdbc.ConnectionFactory;
+import br.com.caelum.jdbc.exception.DAOException;
 import br.com.caelum.jdbc.modelo.Contato;
 
 public class ContatoDao {
@@ -34,7 +35,7 @@ public class ContatoDao {
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new DAOException(e);
 		}
 	}
 
@@ -65,7 +66,37 @@ public class ContatoDao {
 
 			return contatos;
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new DAOException(e);
+		}
+	}
+
+	public Contato pesquisar(int id) {
+		String sql = "select * from contatos where id = ?";
+
+		try {
+			PreparedStatement stmt = this.connection.prepareStatement(sql);
+			stmt.setLong(1, id);
+
+			ResultSet rs = stmt.executeQuery();
+
+			rs.next();
+
+			Contato contato = new Contato();
+			contato.setId(rs.getLong("id"));
+			contato.setNome(rs.getString("nome"));
+			contato.setEmail(rs.getString("email"));
+			contato.setEndereco(rs.getString("endereco"));
+
+			Calendar data = Calendar.getInstance();
+			data.setTime(rs.getDate("dataNascimento"));
+			contato.setDataNascimento(data);
+
+			rs.close();
+			stmt.close();
+
+			return contato;
+		} catch (SQLException e) {
+			throw new DAOException(e);
 		}
 	}
 }
